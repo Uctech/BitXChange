@@ -113,7 +113,7 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:layout_weight="1"
-                tools:text=""
+                tools:hint="Enter base amount"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
@@ -121,7 +121,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                tools:text=""
                 android:inputType="none"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
         </LinearLayout>

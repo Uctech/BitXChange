@@ -77,6 +77,8 @@ public class CoinExchangeActivity extends AppCompatActivity {
                             BigDecimal baseAmount = new BigDecimal(mBaseAmountEditText.getText().toString());
                             //convert base currency to local currency
                             mBaseAmountEquiEditText.setText(convert(baseAmount, mCurrency.getExchangeRate()).toString());
+                        }else {
+                            mBaseAmountEquiEditText.setText("");
                         }
                         mToolbar.setTitle(setToolBarTitle(mTabTitle, currency.getCode()));
                         mToolbar.setSubtitle(setToolBarSubTitle(mTabTitle, currency.getExchangeRate().toString() , currency.getCode()));
@@ -103,6 +105,8 @@ public class CoinExchangeActivity extends AppCompatActivity {
                     BigDecimal baseAmount = new BigDecimal(mBaseAmountEditText.getText().toString());
                     //convert base currency to local currency
                     mBaseAmountEquiEditText.setText(convert(baseAmount, mCurrency.getExchangeRate()).toString());
+                }else {
+                    mBaseAmountEquiEditText.setText("");
                 }
             }
 

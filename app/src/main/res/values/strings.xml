@@ -5,7 +5,7 @@
     <string name="title_activity_coin_exchange">CoinExchangeActivity</string>
     <string name="base_currency">Base Currency:</string>
     <string name="quote_currency">Quote Currency:</string>
-    <string name="amount">Amount:</string>
+    <string name="amount">Enter Amount:</string>
     <string name="equivalent">Equivalent:</string>
     <string name="nigerian_naira">Nigerian Naira</string>
     <string name="code">NGN</string>
