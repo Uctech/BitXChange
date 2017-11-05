@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BitXChange</string>
+    <string name="action_settings">Settings</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_coin_exchange">CoinExchangeActivity</string>
+    <string name="base_currency">Base Currency:</string>
+    <string name="quote_currency">Quote Currency:</string>
+    <string name="amount">Amount:</string>
+    <string name="equivalent">Equivalent:</string>
+    <string name="nigerian_naira">Nigerian Naira</string>
+    <string name="code">NGN</string>
+    <string name="coin_exchange">64,5674.55567</string>
+    <string name="country_desc">Nigerian Naira</string>
+</resources>
