@@ -11,6 +11,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ProgressBar;
+import android.widget.QuickContactBadge;
+import android.widget.TextView;
 
 import com.uctech.bitxchange.R;
 import com.uctech.bitxchange.services.ApiClient;
@@ -31,6 +35,12 @@ public class BitcoinFragment extends Fragment {
     private LinearLayoutManager layoutManager;
     private CurrencyAdapter currencyAdapter;
     private CoinResult coinResult;
+    private ProgressBar progressBar;
+    private TextView textViewError;
+    private Button buttonTryAgain;
+
+    ApiInterface apiInterface;
+
     private static final String TAG = "BitcoinFragment";
     // TODO: Rename parameter arguments, choose names that match
     private static final String TAB_TITLE = "tabTitle";
@@ -41,6 +51,12 @@ public class BitcoinFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+        buttonTryAgain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getData();
+            }
+        });
     }
 
     private String tabTitle;
@@ -64,7 +80,7 @@ public class BitcoinFragment extends Fragment {
         BitcoinFragment fragment = new BitcoinFragment();
         Bundle args = new Bundle();
         args.putString(TAB_TITLE, tabTitle);
-       // args.putInt(TAB_INDEX, tabIndex);
+        // args.putInt(TAB_INDEX, tabIndex);
         fragment.setArguments(args);
         return fragment;
     }
@@ -75,22 +91,6 @@ public class BitcoinFragment extends Fragment {
         if (getArguments() != null) {
             tabTitle = getArguments().getString(TAB_TITLE);
         }
-
-        ApiInterface apiInterface = ApiClient.getClient().create(ApiInterface.class);
-        Call<CoinResult> coinResultCall = apiInterface.getExchangeRate();
-        coinResultCall.enqueue(new Callback<CoinResult>() {
-            @Override
-            public void onResponse(Call<CoinResult> call, Response<CoinResult> response) {
-                coinResult = response.body();
-                if(coinResult != null) {
-                    recyclerView.setAdapter(new CurrencyAdapter(coinResult.getBitCoin().getData(), getContext(),tabTitle));
-                }
-            }
-            @Override
-            public void onFailure(Call<CoinResult> call, Throwable t) {
-                Log.e(TAG, t.toString());
-            }
-        });
     }
 
     @Override
@@ -99,6 +99,10 @@ public class BitcoinFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bitcoin, container, false);
         recyclerView = (RecyclerView) view.findViewById(R.id.bitcoin_recyclerview);
+        progressBar = (ProgressBar) view.findViewById(R.id.progress_bar);
+        textViewError = (TextView) view.findViewById(R.id.error_text_view);
+        buttonTryAgain = (Button) view.findViewById(R.id.btn_try_again);
+        getData();
         return view;
     }
 
@@ -139,5 +143,47 @@ public class BitcoinFragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void showLoading() {
+        recyclerView.setVisibility(View.INVISIBLE);
+        buttonTryAgain.setVisibility(View.INVISIBLE);
+        textViewError.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoading() {
+        recyclerView.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        buttonTryAgain.setVisibility(View.INVISIBLE);
+        textViewError.setVisibility(View.INVISIBLE);
+    }
+
+    private void showError() {
+        recyclerView.setVisibility(View.INVISIBLE);
+        progressBar.setVisibility(View.INVISIBLE);
+        buttonTryAgain.setVisibility(View.VISIBLE);
+        textViewError.setVisibility(View.VISIBLE);
+    }
+    private void getData() {
+        showLoading();
+        apiInterface = ApiClient.getClient().create(ApiInterface.class);
+        Call<CoinResult> coinResultCall = apiInterface.getExchangeRate();
+        coinResultCall.enqueue(new Callback<CoinResult>() {
+            @Override
+            public void onResponse(Call<CoinResult> call, Response<CoinResult> response) {
+                coinResult = response.body();
+                if (coinResult != null) {
+                    recyclerView.setAdapter(new CurrencyAdapter(coinResult.getBitCoin().getData(), getContext(), tabTitle));
+                }
+                hideLoading();
+            }
+
+            @Override
+            public void onFailure(Call<CoinResult> call, Throwable t) {
+                Log.e(TAG, t.toString());
+                showError();
+            }
+        });
     }
 }

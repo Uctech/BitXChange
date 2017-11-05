@@ -15,5 +15,34 @@
         android:layout_height="match_parent"
         tools:listitem= "@layout/currency_item"
         />
-
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progress_bar_eth"
+        android:layout_centerInParent="true"
+        android:visibility="invisible"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/error_text_view_eth"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:text="@string/an_error_occured_while_fetching_data"
+            />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_try_again_eth"
+            android:visibility="invisible"
+            android:layout_gravity="center"
+            android:text="@string/try_again"
+            />
+    </LinearLayout>
 </RelativeLayout>
